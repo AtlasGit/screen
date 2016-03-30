@@ -69,6 +69,11 @@ class Capture
      */
     public $jobsPath;
 
+	/**
+	 * @var bool
+	 */
+	public $waitForPageLoading = false;
+
     /**
      * Capture constructor.
      *
@@ -121,7 +126,8 @@ class Capture
 
         if (!is_file($jobPath)) {
             // Now we write the code to a js file
-            $resultString = $this->getTemplateResult('screen-capture', $data);
+	        $template = $this->waitForPageLoading ? 'screen-capture-loaded' : 'screen-capture';
+            $resultString = $this->getTemplateResult($template, $data);
             file_put_contents($jobPath, $resultString);
         }
 
